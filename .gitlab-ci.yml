@@ -3,12 +3,6 @@ variables:
 
 image: trion/ng-cli-karma:8.3.25
 
-stages:
-  - build
-  - test
-  - migrate
-  - deploy
-
 .ssh:
   before_script:
   - mkdir -p ~/.ssh
