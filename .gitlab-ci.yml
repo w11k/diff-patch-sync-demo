@@ -43,7 +43,7 @@ test-client-e2e:
     POSTGRES_USER: todo-app
     POSTGRES_PASSWORD: "todo-app"
   script:
-    - cd diff-patch-sync-demo/server/
+    - cd server/
     - rm -rf config.json
     - rm -rf node_modules/
     - echo $config_test > config.json
@@ -60,7 +60,7 @@ build-client:
     - .runner_tags
   stage: build
   script:
-    - cd diff-patch-sync-demo/todo-app/
+    - cd todo-app/
     - rm -rf node_modules/
     - npm install
     - npm run build:$ANGULAR_ENVIRONMENT
@@ -68,7 +68,7 @@ build-client:
     - cd ../..
   artifacts:
     paths:
-      - diff-patch-sync-demo/todo-app/dist/
+      - todo-app/dist/
     name: "Build Todo-App"
     expire_in: 1 week
     when: on_success
@@ -78,7 +78,7 @@ build-server:
     - .runner_tags
   stage: build
   script:
-    - cd diff-patch-sync-demo/server/
+    - cd server/
     - rm -rf node_modules/
     - npm install
     - npm run build
@@ -86,7 +86,7 @@ build-server:
     - cd ../..
   artifacts:
     paths:
-      - diff-patch-sync-demo/server/dist/
+      - server/dist/
     name: "Build Server"
     expire_in: 1 week
     when: on_success
@@ -98,7 +98,7 @@ migrate-db:
   stage: migrate
   image: kroniak/ssh-client
   script:
-    - cd diff-patch-sync-demo/server/
+    - cd server/
     - ls
     - rm -rf ormconfig.json
     - echo $ormconfig > ormconfig.json
@@ -126,7 +126,7 @@ deploy-client:
   stage: deploy
   image: kroniak/ssh-client
   script:
-    - cd diff-patch-sync-demo/todo-app
+    - cd todo-app
     - scp -r dist/todo-app/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
   dependencies:
     - build-client
@@ -146,7 +146,7 @@ deploy-server:
   stage: deploy
   image: kroniak/ssh-client
   script:
-    - cd diff-patch-sync-demo/server/
+    - cd server/
     - echo $config > config.json
     - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
     - scp -r dist/src/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
