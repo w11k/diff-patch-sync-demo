@@ -60,107 +60,107 @@ build-server:
   environment:
     name: $ANGULAR_ENVIRONMENT
 
-test-e2e:
-  stage: test
-  image: trion/ng-cli-e2e:7.0.5
-  retry: 2
-  allow_failure: false
-  dependencies:
-    - build-server
-  services:
-    - postgres:latest
-  before_script:
-    - apt update
-    - apt install -y postgresql-client
-    - env PGPASSWORD=todo-app psql -h postgres -U todo-app -w todo-app
-  variables:
-    POSTGRES_DB: todo-app
-    POSTGRES_USER: todo-app
-    POSTGRES_PASSWORD: "todo-app"
-  script:
-    - cd server/
-    - rm -rf config.json
-    - rm -rf node_modules/
-    - echo $config_test > config.json
-    - echo $ormconfig_test > ormconfig.json
-    - npm install
-    - npm run migrate:run
-    - cd ../todo-app
-    - npm run test:e2e-ci
-  tags:
-    - docker
-  environment:
-    name: $ANGULAR_ENVIRONMENT
-    #  when: manual
-  only:
-   - master
-
-migrate-db:
-  extends:
-    - .ssh
-    - .runner_tags
-  stage: migrate
-  image: kroniak/ssh-client
-  script:
-    - cd server/
-    - ls
-    - rm -rf ormconfig.json
-    - echo $ormconfig > ormconfig.json
-    - ssh deploy@w11k.de rm -rf /srv/www/vhosts/$VHOST_PATH/api/
-    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
-    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-    - scp -r ormconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-    - scp -r tsconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-    - scp -r src/ deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; npm install; npm run migrate:run"
-  dependencies:
-    - build-server
-  environment:
-    name: $ANGULAR_ENVIRONMENT
-#  when: manual
-  only:
-    - master
-
-deploy-client:
-  extends:
-    - .ssh
-    - .runner_tags
-  stage: deploy
-  image: kroniak/ssh-client
-  script:
-    - cd todo-app/
-    - scp -r dist/todo-app/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
-  dependencies:
-    - build-client
-#  when: manual
-  only:
-    - master
-  environment:
-    name: $ANGULAR_ENVIRONMENT
-    url: https://todo-app.w11k.de
-
-deploy-server:
-  extends:
-    - .ssh
-    - .runner_tags
-  stage: deploy
-  image: kroniak/ssh-client
-  script:
-    - cd server/
-    - echo $config > config.json
-    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
-    - scp -r dist/src/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; rm -rf node_modules; npm install"
-    - scp -r config.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-    - ssh deploy@w11k.de chmod 644 /srv/www/vhosts/$VHOST_PATH/api/config.json
-    - ssh deploy@w11k.de sudo supervisorctl restart $SERVER_SERVICE
-  after_script:
-    - ls
-  environment:
-    name: $ANGULAR_ENVIRONMENT
-  dependencies:
-    - build-server
-#  when: manual
-  only:
-    - master
+#test-e2e:
+#  stage: test
+#  image: trion/ng-cli-e2e:7.0.5
+#  retry: 2
+#  allow_failure: false
+#  dependencies:
+#    - build-server
+#  services:
+#    - postgres:latest
+#  before_script:
+#    - apt update
+#    - apt install -y postgresql-client
+#    - env PGPASSWORD=todo-app psql -h postgres -U todo-app -w todo-app
+#  variables:
+#    POSTGRES_DB: todo-app
+#    POSTGRES_USER: todo-app
+#    POSTGRES_PASSWORD: "todo-app"
+#  script:
+#    - cd server/
+#    - rm -rf config.json
+#    - rm -rf node_modules/
+#    - echo $config_test > config.json
+#    - echo $ormconfig_test > ormconfig.json
+#    - npm install
+#    - npm run migrate:run
+#    - cd ../todo-app
+#    - npm run test:e2e-ci
+#  extends:
+#  - .runner_tags
+#  environment:
+#    name: $ANGULAR_ENVIRONMENT
+#    #  when: manual
+#  only:
+#   - master
+#
+#migrate-db:
+#  extends:
+#    - .ssh
+#    - .runner_tags
+#  stage: migrate
+#  image: kroniak/ssh-client
+#  script:
+#    - cd server/
+#    - ls
+#    - rm -rf ormconfig.json
+#    - echo $ormconfig > ormconfig.json
+#    - ssh deploy@w11k.de rm -rf /srv/www/vhosts/$VHOST_PATH/api/
+#    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
+#    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+#    - scp -r ormconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+#    - scp -r tsconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+#    - scp -r src/ deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+#    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; npm install; npm run migrate:run"
+#  dependencies:
+#    - build-server
+#  environment:
+#    name: $ANGULAR_ENVIRONMENT
+##  when: manual
+#  only:
+#    - master
+#
+#deploy-client:
+#  extends:
+#    - .ssh
+#    - .runner_tags
+#  stage: deploy
+#  image: kroniak/ssh-client
+#  script:
+#    - cd todo-app/
+#    - scp -r dist/todo-app/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
+#  dependencies:
+#    - build-client
+##  when: manual
+#  only:
+#    - master
+#  environment:
+#    name: $ANGULAR_ENVIRONMENT
+#    url: https://todo-app.w11k.de
+#
+#deploy-server:
+#  extends:
+#    - .ssh
+#    - .runner_tags
+#  stage: deploy
+#  image: kroniak/ssh-client
+#  script:
+#    - cd server/
+#    - echo $config > config.json
+#    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
+#    - scp -r dist/src/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+#    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+#    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; rm -rf node_modules; npm install"
+#    - scp -r config.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+#    - ssh deploy@w11k.de chmod 644 /srv/www/vhosts/$VHOST_PATH/api/config.json
+#    - ssh deploy@w11k.de sudo supervisorctl restart $SERVER_SERVICE
+#  after_script:
+#    - ls
+#  environment:
+#    name: $ANGULAR_ENVIRONMENT
+#  dependencies:
+#    - build-server
+##  when: manual
+#  only:
+#    - master
