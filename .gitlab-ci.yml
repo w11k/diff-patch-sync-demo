@@ -1,8 +1,6 @@
 variables:
   DOCKER_DRIVER: overlay2
-
 image: trion/ng-cli-karma:8.3.25
-
 stages:
   - build
   - test
