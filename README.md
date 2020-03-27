@@ -4,7 +4,7 @@ This repo contains a client-server-example with **Angular 8** frontend and **Nes
 
 ## Features
 
-- Provide Client-Server-Synchronisation using [**diff-patch-sync**](https://github.com/w11k/diff-patch-sync). This is a TypeScript library for syncing collaborative web-applications implementing the **Differential Synchronization** Algorithm developed by [_Neil Fraser_](https://neil.fraser.name/writing/sync/) with REST-backends. 
+- Provide Client-Server-Synchronisation using [**diff-patch-sync**](https://www.npmjs.com/package/@w11k/diff-patch-sync). This is a TypeScript library for syncing collaborative web-applications implementing the **Differential Synchronization** Algorithm developed by [_Neil Fraser_](https://neil.fraser.name/writing/sync/) with REST-backends. 
 - Provide client-side storage by using **IndexedDB** [(ngx-indexed-db)](https://www.npmjs.com/package/ngx-indexed-db)
 - In order to make the client fully offline-capable to provide static files using Angular specific **Service Worker API** [(@angular/service-worker)](https://angular.io/api/service-worker)
 - Use Angular _HttpClientModule_ to communicate  
@@ -67,10 +67,11 @@ The application is continuously tested and deployed within a CI-environment. Git
 
 ## References
 
-* [jsondiffpatch](https://github.com/benjamine/jsondiffpatch) - Diff & patch JavaScript objects.
-* [diff-match-patch](https://github.com/google/diff-match-patch) - Diff Match Patch is a high-performance library in multiple languages that manipulates plain text. 
+* [diff-patch-sync](https://github.com/w11k/diff-patch-sync) - TypeScript library for syncing collaborative web-applications with REST-backends in order to make them offline-capable.
 * [lodash](https://github.com/lodash/lodash) - A modern JavaScript utility library delivering modularity, performance, & extras.
 * [uuid](https://github.com/uuidjs/uuid) - Generate RFC-compliant UUIDs in JavaScript.
+* [ngx-indexed-db](https://github.com/assuncaocharles/ngx-indexed-db) - A service that wraps IndexedDB database in an Angular service. It exposes very simple promises API to enable the usage of IndexedDB without most of it plumbing.
+
 
 ## Authors
 
