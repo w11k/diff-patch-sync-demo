@@ -1,0 +1,10 @@
+<form [formGroup]="form" class="view">
+  <div class="form-group todo-list-item">
+    <input [formControl]="form.controls['complete']" name="complete" class="toggle form-control" type="checkbox"
+           (click)="toggleTodoComplete()" formControlName="complete">
+    <input [formControl]="form.controls['title']" name="title" class="title form-control todo-list-item-input" type="text"
+           formControlName="title" (keyup)="keyup($event)" placeholder="Title is required!">
+    <button *ngIf="form.dirty && form.valid" class="submit todo-list-item-submit" type="button" (click)="updateTodo()"></button>
+    <button class="destroy todo-list-item-delete" type="button" (click)="removeTodo()"></button>
+  </div>
+</form>

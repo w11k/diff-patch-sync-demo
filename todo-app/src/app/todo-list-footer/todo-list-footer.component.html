@@ -1,0 +1,5 @@
+<mat-card class="footer" *ngIf="todos.length > 0">
+  <mat-card-content>
+    <span class="todo-count"><strong>{{todos.length}}</strong> {{todos.length == 1 ? 'item' : 'items'}} in list</span>
+  </mat-card-content>
+</mat-card>

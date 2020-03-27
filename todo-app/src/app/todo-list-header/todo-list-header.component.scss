@@ -1,0 +1,97 @@
+.mat-card {
+  margin: 0 0 20px 0;
+
+  .mat-card-header {
+    display: flex;
+    flex-flow: row-reverse;
+
+    .connectionStatus {
+      position: absolute;
+      top: -120px;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      z-index: 99 ;
+
+      span {
+        line-height: 21px;
+        margin-right: 5px;
+        color: #424242
+      }
+    }
+
+    #swipe-down-area {
+      position: absolute;
+      top: -110px;
+      right: 0;
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      flex-direction: column;
+      height: 100px;
+      width: 100%;
+      opacity: 0.01;
+      animation: pulse 1.5s ease-out 0s alternate infinite none running;
+      animation-iteration-count: 4;
+      -webkit-animation: pulse 1.5s ease-out 0s alternate infinite none running;
+      -webkit-animation-iteration-count: 4;
+
+      @-webkit-keyframes pulse {
+        0% {
+          opacity: 0.01;
+          transform: translate(0px, 0px);
+          -webkit-transform: translate(0px, 0px);
+        }
+        100% {
+          opacity: 1;
+          transform: translate(0px, 5px);
+          -webkit-transform: translate(0px, 5px);
+        }
+      }
+
+      span {
+        line-height: 21px;
+        margin-top: 20px;
+        color: #424242;
+        align-self: center;
+      }
+
+      .swipeIcon {
+        align-self: center;
+        &:after {
+          display: inline-block;
+          font: normal normal normal 28px/1 FontAwesome;
+          text-rendering: auto;
+          content: "\f103";
+          color: grey;
+        }
+      }
+    }
+  }
+
+  .mat-card-content {
+    .form-group {
+      display: flex;
+
+      small {
+        line-height: 1.4;
+      }
+
+      .new-todo {
+        width: 100%;
+        font-size: 24px;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: 1.4em;
+        color: inherit;
+        padding: 0 0 0 30px;
+        border: none;
+        background: inherit;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+  }
+}

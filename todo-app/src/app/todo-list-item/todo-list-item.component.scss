@@ -1,0 +1,118 @@
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 100%;
+  vertical-align: baseline;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.toggle {
+  text-align: center;
+  width: 40px;
+
+  /* auto, since non-WebKit browsers doesn't support input styling */
+  height: auto;
+  position: absolute;
+  top: 12px;
+  bottom: 0;
+  margin: auto 10px;
+  border: none;
+
+  /* Mobile Safari */
+  -webkit-appearance: none;
+  appearance: none;
+
+  &:after {
+    display: inline-block;
+    font: normal normal normal 28px/1 FontAwesome;
+    text-rendering: auto;
+    content: "\f096";
+    color: grey;
+  }
+
+  &:checked:after {
+    display: inline-block;
+    font: normal normal normal 28px/1 FontAwesome;
+    text-rendering: auto;
+    content: "\f046";
+    color: grey;
+  }
+}
+
+
+.title {
+  word-break: break-all;
+  padding: 15px 0 15px 10px;
+  margin: 5px 80px 5px 45px;
+  display: block;
+  line-height: 1.2;
+  transition: color 0.4s;
+  border: none;
+  width: -webkit-fill-available;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background-color: inherit;
+}
+
+.submit {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  color: #cc9a9a;
+  line-height: 21px;
+  transition: color 0.2s ease-out;
+
+  &:hover {
+    color: #af5b5e;
+  }
+
+  &:after {
+    content: "\2386";
+  }
+}
+
+.destroy {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  color: #cc9a9a;
+  line-height: 21px;
+  transition: color 0.2s ease-out;
+
+  &:hover {
+    color: #af5b5e;
+  }
+
+  &:after {
+    content: '×';
+  }
+}
+
+input.form-control.ng-invalid {
+  border: dotted red 1px;
+  color: red !important;
+}
+
+small {
+  color: red !important;
+}
+
+
+

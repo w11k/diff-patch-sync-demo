@@ -1,0 +1,32 @@
+<div class="header">
+  <mat-card>
+    <mat-card-header>
+      <div class="connectionStatus">
+        <span>Connection Status:</span>
+        <mat-slide-toggle
+          id="offline-slide-toggle"
+          [checked]="connection"
+          (toggleChange)="toggleConnection()"
+        >
+        </mat-slide-toggle>
+      </div>
+      <div id="swipe-down-area"
+           (swipedown)="swipeDown($event)"
+      >
+        <span>swipe to refresh</span>
+        <i class="swipeIcon"></i>
+
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-group" [formGroup]="form">
+        <input id="new-title" [formControl]="form.controls['title']" name="title" class="new-todo" type="text"
+               formControlName="title" (keyup)="keyup($event)" placeholder="What needs to be done?" autofocus=""
+               (blur)="resetErrors()">
+        <small *ngIf="form.controls['title'].errors && form.controls['title'].dirty" id="title-input-help"
+               class="form-text text-muted">Title is required!
+        </small>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,13 @@
+<mat-card class="main" *ngIf="todos.length > 0">
+  <mat-card-content>
+      <ul class="todo-list" id="todo-list">
+        <li *ngFor="let todo of todos" [class.completed]="todo.complete">
+          <app-todo-list-item
+            [todo]="todo"
+            (remove)="onRemoveTodo($event)"
+            (update)="onUpdateTodo($event)">
+          </app-todo-list-item>
+        </li>
+      </ul>
+  </mat-card-content>
+</mat-card>

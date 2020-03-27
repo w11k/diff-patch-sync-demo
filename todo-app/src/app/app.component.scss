@@ -1,0 +1,50 @@
+@import './../variables';
+
+#todoapp {
+  margin: 130px 15px 40px;
+  position: relative;
+
+  input {
+    &::-webkit-input-placeholder, &::-moz-placeholder, &::input-placeholder {
+      font-style: italic;
+      font-weight: 300;
+      color: $background-color;
+    }
+  }
+
+  h1 {
+    position: absolute;
+    top: -155px;
+    width: 100%;
+    font-size: 100px;
+    font-weight: 100;
+    text-align: center;
+    color: rgba(175, 47, 47, 0.15);
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+  }
+
+  .loading-spinner-wrapper {
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    -webkit-box-pack: center;
+    justify-content: center;
+    align-content: stretch;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0;
+    border-radius: unset;
+  }
+}

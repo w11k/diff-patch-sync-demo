@@ -1,0 +1,25 @@
+<section id="todoapp">
+  <mat-card
+    class="loading-spinner-wrapper"
+    *ngIf="isLoading$ | async"
+  >
+    <mat-progress-spinner
+      id="loading-spinner"
+      [mode]="'indeterminate'"
+    ></mat-progress-spinner>
+  </mat-card>
+  <app-todo-list-header
+    [connStatus$]="connStatus$"
+    (add)="onAddTodo($event)"
+    (switchManualConnectionStatus)="onSwitchConnection($event)"
+    (swipeDownEmitter)="onSwipeDown($event)"
+  ></app-todo-list-header>
+  <app-todo-list
+    [todos]="todos"
+    (remove)="onRemoveTodo($event)"
+    (update)="onUpdateTodo($event)"
+  ></app-todo-list>
+  <app-todo-list-footer
+    [todos]="todos"
+  ></app-todo-list-footer>
+</section>
