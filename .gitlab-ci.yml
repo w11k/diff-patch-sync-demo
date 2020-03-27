@@ -121,20 +121,20 @@ migrate-db:
   only:
     - master
 
-#deploy-client:
-#  extends:
-#    - .ssh
-#    - .runner_tags
-#  stage: deploy
-#  image: kroniak/ssh-client
-#  script:
-#    - cd todo-app/
-#    - scp -r dist/todo-app/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
-#  dependencies:
-#    - build-client
-##  when: manual
-#  only:
-#    - master
+deploy-client:
+  extends:
+    - .ssh
+    - .runner_tags
+  stage: deploy
+  image: kroniak/ssh-client
+  script:
+    - cd todo-app/
+    - scp -r dist/todo-app/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
+  dependencies:
+    - build-client
+#  when: manual
+  only:
+    - master
 #  environment:
 #    name: $ANGULAR_ENVIRONMENT
 #    url: https://todo-app.w11k.de
