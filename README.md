@@ -2,20 +2,20 @@
 
 This repo contains a client-server-example with **Angular 8** frontend and **NestJS** REST-backend based on Node.js server integrating the [**diff-patch-sync**](https://github.com/w11k/diff-patch-sync)-library on both sides. 
 
-## Features
+## Frameworks
 
-- Provide Client-Server-Synchronisation using [**diff-patch-sync**](https://www.npmjs.com/package/@w11k/diff-patch-sync). This is a TypeScript library for syncing collaborative web-applications implementing the **Differential Synchronization** Algorithm developed by [_Neil Fraser_](https://neil.fraser.name/writing/sync/) with REST-backends. 
+- Provide Client-Server-Synchronisation using [**diff-patch-sync**](https://www.npmjs.com/package/@w11k/diff-patch-sync). This is a TypeScript library for syncing collaborative web-applications implementing the **Differential Synchronization** Algorithm developed by [_Neil Fraser_](https://neil.fraser.name/writing/sync/) with REST-backends via HTTP.
+- Uses Angular Framework to develop frontend functionality and to serve a SPA [()Angular CLI)](https://www.npmjs.com/package/@angular/cli)  
 - Provide client-side storage by using **IndexedDB** [(ngx-indexed-db)](https://www.npmjs.com/package/ngx-indexed-db)
 - In order to make the client fully offline-capable to provide static files using Angular specific **Service Worker API** [(@angular/service-worker)](https://angular.io/api/service-worker)
-- Use Angular _HttpClientModule_ to communicate  
+- Makes use of NestJS [(NestJS CLI)](https://www.npmjs.com/package/@nestjs/cli), a framework for building efficient, scalable REST-backends based on Node.js. 
+- On server-side the object-relational-mapper TypeOrm [(typorm)](https://www.npmjs.com/package/typeorm) is used for better entity management, migrations and automatic migrations generation
+- An lightweight open-source SQL-database PostgreSQL is used for persisting data server-side [postgres](https://www.npmjs.com/package/postgres)
 
 ## Demo
 See a running demo of a collaborative todo-app here: **[Demo Todo App](http://todo-app.w11k.de/)**
 
 _Hint:_ It is recommended to use two different browsers (e.g. Chrome and Firefox) or two instances of Chrome (one instance in _private mode ("Ctrl + Shift + n")_) because IndexedDB is used and the instances should not share their databases.
-
-- toggle client to offline-mode
-- 
 
 ## Prerequisites for local development
 
@@ -24,7 +24,7 @@ _Hint:_ It is recommended to use two different browsers (e.g. Chrome and Firefox
 - Install _http-server_ globally when you want to serve the application via CLI-Http-Server with `npm install -g http-server`
 - Make sure to have Docker installed [(Docker download link)](https://docs.docker.com/install/)
 - Bring up the PostgreSLQ database by running `cd docker && docker-compose up`
-- Run database migrations using TypeORM migrations with `cd server/ && npm run migrate:run`
+- Run database migrations using TypeOrm migrations with `cd server/ && npm run migrate:run`
 
 ## Client
 
@@ -71,7 +71,10 @@ The application is continuously tested and deployed within a CI-environment. Git
 * [lodash](https://github.com/lodash/lodash) - A modern JavaScript utility library delivering modularity, performance, & extras.
 * [uuid](https://github.com/uuidjs/uuid) - Generate RFC-compliant UUIDs in JavaScript.
 * [ngx-indexed-db](https://github.com/assuncaocharles/ngx-indexed-db) - A service that wraps IndexedDB database in an Angular service. It exposes very simple promises API to enable the usage of IndexedDB without most of it plumbing.
-
+* [typeorm](https://github.com/typeorm/typeorm) - ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, SAP Hana, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms
+* [postgresql](https://www.postgresql.org/) - PostgreSQL Database Management System
+* [Angular CLI](https://angular.io/) - One frontend framework. Mobile & desktop
+* [NestJS CLI](https://github.com/nestjs/nest) - A progressive Node.js framework for building efficient, scalable, and enterprise-grade server-side applications on top of TypeScript & JavaScript (ES6, ES7, ES8)
 
 ## Authors
 
