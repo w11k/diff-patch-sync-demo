@@ -87,6 +87,11 @@ test-e2e:
     - npm run test:e2e-ci
   tags:
     - docker
+  environment:
+    name: $ANGULAR_ENVIRONMENT
+    #  when: manual
+    only:
+    - master
 
 migrate-db:
   extends:
@@ -121,7 +126,7 @@ deploy-client:
   stage: deploy
   image: kroniak/ssh-client
   script:
-    - cd todo-app
+    - cd todo-app/
     - scp -r dist/todo-app/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
   dependencies:
     - build-client
