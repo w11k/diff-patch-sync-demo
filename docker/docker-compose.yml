@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+  todo-db:
+    container_name: todo_api
+    image: postgres
+    restart: "no"
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: todo
+      POSTGRES_PASSWORD: todo

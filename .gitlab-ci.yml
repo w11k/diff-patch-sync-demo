@@ -5,9 +5,9 @@ image: trion/ng-cli-karma:8.3.25
 
 stages:
   - build
+  - test
   - migrate
   - deploy
-  - test
 
 .ssh:
   before_script:
@@ -22,7 +22,7 @@ stages:
   - docker
   - linux
 
-test-client-e2e:
+test-e2e:
   stage: test
   image: trion/ng-cli-e2e:7.0.5
   retry: 2
