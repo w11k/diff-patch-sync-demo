@@ -95,32 +95,32 @@ test-e2e:
   only:
    - master
 
-#migrate-db:
-#  extends:
-#    - .ssh
-#    - .runner_tags
-#  stage: migrate
-#  image: kroniak/ssh-client
-#  script:
-#    - cd server/
-#    - ls
-#    - rm -rf ormconfig.json
-#    - echo $ormconfig > ormconfig.json
-#    - ssh deploy@w11k.de rm -rf /srv/www/vhosts/$VHOST_PATH/api/
-#    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
-#    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-#    - scp -r ormconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-#    - scp -r tsconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-#    - scp -r src/ deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-#    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; npm install; npm run migrate:run"
-#  dependencies:
-#    - build-server
+migrate-db:
+  extends:
+    - .ssh
+    - .runner_tags
+  stage: migrate
+  image: kroniak/ssh-client
+  script:
+    - cd server/
+    - ls
+    - rm -rf ormconfig.json
+    - echo $ormconfig > ormconfig.json
+    - ssh deploy@w11k.de rm -rf /srv/www/vhosts/$VHOST_PATH/api/
+    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
+    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+    - scp -r ormconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+    - scp -r tsconfig.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+    - scp -r src/ deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; npm install; npm run migrate:run"
+  dependencies:
+    - build-server
 #  environment:
 #    name: $ANGULAR_ENVIRONMENT
 ##  when: manual
-#  only:
-#    - master
-#
+  only:
+    - master
+
 #deploy-client:
 #  extends:
 #    - .ssh
