@@ -139,28 +139,28 @@ deploy-client:
 #    name: $ANGULAR_ENVIRONMENT
 #    url: https://todo-app.w11k.de
 #
-#deploy-server:
-#  extends:
-#    - .ssh
-#    - .runner_tags
-#  stage: deploy
-#  image: kroniak/ssh-client
-#  script:
-#    - cd server/
-#    - echo $config > config.json
-#    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
-#    - scp -r dist/src/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-#    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-#    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; rm -rf node_modules; npm install"
-#    - scp -r config.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
-#    - ssh deploy@w11k.de chmod 644 /srv/www/vhosts/$VHOST_PATH/api/config.json
-#    - ssh deploy@w11k.de sudo supervisorctl restart $SERVER_SERVICE
-#  after_script:
-#    - ls
+deploy-server:
+  extends:
+    - .ssh
+    - .runner_tags
+  stage: deploy
+  image: kroniak/ssh-client
+  script:
+    - cd server/
+    - echo $config > config.json
+    - ssh deploy@w11k.de mkdir -p /srv/www/vhosts/$VHOST_PATH/api/
+    - scp -r dist/src/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+    - scp -r package.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+    - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; rm -rf node_modules; npm install"
+    - scp -r config.json deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/api/
+    - ssh deploy@w11k.de chmod 644 /srv/www/vhosts/$VHOST_PATH/api/config.json
+    - ssh deploy@w11k.de sudo supervisorctl restart $SERVER_SERVICE
+  after_script:
+    - ls
 #  environment:
 #    name: $ANGULAR_ENVIRONMENT
-#  dependencies:
-#    - build-server
+  dependencies:
+    - build-server
 ##  when: manual
-#  only:
-#    - master
+  only:
+    - master
