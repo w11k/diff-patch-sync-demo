@@ -39,6 +39,8 @@ build-client:
     name: "Build Todo-App"
     expire_in: 1 week
     when: on_success
+  environment:
+    name: $ANGULAR_ENVIRONMENT
 
 build-server:
   extends:
@@ -57,6 +59,8 @@ build-server:
     name: "Build Server"
     expire_in: 1 week
     when: on_success
+  environment:
+    name: $ANGULAR_ENVIRONMENT
 
 test-e2e:
   stage: test
@@ -87,8 +91,8 @@ test-e2e:
     - npm run test:e2e-ci
   tags:
     - docker
-#  environment:
-#    name: $ANGULAR_ENVIRONMENT
+  environment:
+    name: $ANGULAR_ENVIRONMENT
     #  when: manual
   only:
    - master
@@ -113,8 +117,8 @@ migrate-db:
     - ssh deploy@w11k.de "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash; . ~/.nvm/nvm.sh; nvm --version; nvm use 10.9.0; cd /srv/www/vhosts/$VHOST_PATH/api/; npm install; npm run migrate:run"
   dependencies:
     - build-server
-#  environment:
-#    name: $ANGULAR_ENVIRONMENT
+  environment:
+    name: $ANGULAR_ENVIRONMENT
 #  when: manual
   only:
     - master
@@ -133,9 +137,9 @@ deploy-client:
 #  when: manual
   only:
     - master
-#  environment:
-#    name: $ANGULAR_ENVIRONMENT
-#    url: https://todo-app.w11k.de
+  environment:
+    name: $ANGULAR_ENVIRONMENT
+    url: https://todo-app.w11k.de
 
 deploy-server:
   extends:
@@ -155,8 +159,8 @@ deploy-server:
     - ssh deploy@w11k.de sudo supervisorctl restart $SERVER_SERVICE
   after_script:
     - ls
-#  environment:
-#    name: $ANGULAR_ENVIRONMENT
+  environment:
+    name: $ANGULAR_ENVIRONMENT
   dependencies:
     - build-server
 #  when: manual
