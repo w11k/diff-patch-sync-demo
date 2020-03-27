@@ -22,39 +22,6 @@ stages:
   - docker
   - linux
 
-test-e2e:
-  stage: test
-  image: trion/ng-cli-e2e:7.0.5
-  retry: 2
-  allow_failure: false
-  dependencies:
-    - build-server
-  needs:
-    - build-server
-    - build-client
-  services:
-    - postgres:latest
-  before_script:
-    - apt update
-    - apt install -y postgresql-client
-    - env PGPASSWORD=todo-app psql -h postgres -U todo-app -w todo-app
-  variables:
-    POSTGRES_DB: todo-app
-    POSTGRES_USER: todo-app
-    POSTGRES_PASSWORD: "todo-app"
-  script:
-    - cd server/
-    - rm -rf config.json
-    - rm -rf node_modules/
-    - echo $config_test > config.json
-    - echo $ormconfig_test > ormconfig.json
-    - npm install
-    - npm run migrate:run
-    - cd ../todo-app
-    - npm run test:e2e-ci
-  tags:
-    - docker
-
 build-client:
   extends:
     - .runner_tags
@@ -91,6 +58,39 @@ build-server:
     expire_in: 1 week
     when: on_success
 
+test-e2e:
+  stage: test
+  image: trion/ng-cli-e2e:7.0.5
+  retry: 2
+  allow_failure: false
+  dependencies:
+    - build-server
+  needs:
+    - build-server
+    - build-client
+  services:
+    - postgres:latest
+  before_script:
+    - apt update
+    - apt install -y postgresql-client
+    - env PGPASSWORD=todo-app psql -h postgres -U todo-app -w todo-app
+  variables:
+    POSTGRES_DB: todo-app
+    POSTGRES_USER: todo-app
+    POSTGRES_PASSWORD: "todo-app"
+  script:
+    - cd server/
+    - rm -rf config.json
+    - rm -rf node_modules/
+    - echo $config_test > config.json
+    - echo $ormconfig_test > ormconfig.json
+    - npm install
+    - npm run migrate:run
+    - cd ../todo-app
+    - npm run test:e2e-ci
+  tags:
+    - docker
+
 migrate-db:
   extends:
     - .ssh
@@ -113,6 +113,7 @@ migrate-db:
     - build-server
   needs:
     - build-server
+    - test-e2e
   environment:
     name: $ANGULAR_ENVIRONMENT
 #  when: manual
@@ -132,6 +133,7 @@ deploy-client:
     - build-client
   needs:
     - build-client
+    - test-e2e
 #  when: manual
   only:
     - master
@@ -164,6 +166,7 @@ deploy-server:
   needs:
     - build-server
     - migrate-db
+    - test-e2e
 #  when: manual
   only:
     - master
