@@ -4,13 +4,13 @@ This repo contains a client-server-example with **Angular 8** frontend and **Nes
 
 ## Frameworks
 
-- Provide Client-Server-Synchronisation using [**diff-patch-sync**](https://www.npmjs.com/package/@w11k/diff-patch-sync). This is a TypeScript library for syncing collaborative web-applications implementing the **Differential Synchronization** Algorithm developed by [_Neil Fraser_](https://neil.fraser.name/writing/sync/) with REST-backends via HTTP.
-- Uses Angular Framework to develop frontend functionality and to serve a SPA [()Angular CLI)](https://www.npmjs.com/package/@angular/cli)  
-- Provide client-side storage by using **IndexedDB** [(ngx-indexed-db)](https://www.npmjs.com/package/ngx-indexed-db)
-- In order to make the client fully offline-capable to provide static files using Angular specific **Service Worker API** [(@angular/service-worker)](https://angular.io/api/service-worker)
-- Makes use of NestJS [(NestJS CLI)](https://www.npmjs.com/package/@nestjs/cli), a framework for building efficient, scalable REST-backends based on Node.js. 
-- On server-side the object-relational-mapper TypeOrm [(typorm)](https://www.npmjs.com/package/typeorm) is used for better entity management, migrations and automatic migrations generation
-- An lightweight open-source SQL-database PostgreSQL is used for persisting data server-side [postgres](https://www.npmjs.com/package/postgres)
+- Provide Client-Server-Synchronisation using **diff-patch-sync**. This is a TypeScript library for syncing collaborative web-applications implementing the _Differential Synchronization_ Algorithm developed by [_Neil Fraser_](https://neil.fraser.name/writing/sync/) with REST-backends via HTTP.
+- Uses **Angular 8** Framework to develop frontend functionality and to serve a single-page-application.
+- Provide client-side storage by using **IndexedDB**.
+- In order to make the client fully offline-capable to provide static files using Angular specific **Service Worker API** [(@angular/service-worker)](https://angular.io/api/service-worker).
+- Makes use of NestJS, a framework for building efficient, scalable REST-backends based on Node.js. 
+- On server-side the object-relational-mapper TypeOrm is used for better entity management, migrations and automatic migrations generation.
+- An lightweight open-source SQL-database PostgreSQL is used for persisting data server-side.
 
 ## Demo
 See a running demo of a collaborative todo-app here: **[Demo Todo App](http://todo-app.w11k.de/)**
