@@ -90,8 +90,8 @@ test-e2e:
   environment:
     name: $ANGULAR_ENVIRONMENT
     #  when: manual
-    only:
-    - master
+  only:
+   - master
 
 migrate-db:
   extends:
