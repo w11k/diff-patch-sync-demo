@@ -37,8 +37,8 @@ build-client:
     name: "Build Todo-App"
     expire_in: 1 week
     when: on_success
-  environment:
-    name: $ANGULAR_ENVIRONMENT
+#  environment:
+#    name: $ANGULAR_ENVIRONMENT
 
 build-server:
   extends:
