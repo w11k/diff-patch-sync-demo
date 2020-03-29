@@ -1,10 +1,10 @@
 {
-  "name": "todo-app",
+  "name": "client",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "start:offline": "ng build && cd dist/todo-app/ && http-server -c-1 -p 4200 -a localhost --cors --proxy http://localhost:3000 .",
+    "start:offline": "ng build && cd dist/client/ && http-server -c-1 -p 4200 -a localhost --cors --proxy http://localhost:3000 .",
     "build": "ng build",
     "build:prod": "node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng build --prod --configuration=production",
     "test": "ng test",

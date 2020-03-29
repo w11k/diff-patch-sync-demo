@@ -20,7 +20,7 @@ _Hint:_ It is recommended to use two different browsers (e.g. Chrome and Firefox
 ## Prerequisites for local development
 
 - Make sure to have node version v10.9.0 installed [(Node.js download link)](https://nodejs.org/en/download/)
-- Install Dependencies executing `cd todo-app/ && npm install && cd ../server/ && npm install`
+- Install Dependencies executing `cd client/ && npm install && cd ../server/ && npm install`
 - Install _http-server_ globally when you want to serve the application via CLI-Http-Server with `npm install -g http-server`
 - Make sure to have Docker installed [(Docker download link)](https://docs.docker.com/install/)
 - Bring up the PostgreSLQ database by running `cd docker && docker-compose up`

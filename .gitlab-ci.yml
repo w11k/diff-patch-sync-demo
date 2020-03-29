@@ -25,7 +25,7 @@ build-client:
     - .runner_tags
   stage: build
   script:
-    - cd todo-app/
+    - cd client/
     - rm -rf node_modules/
     - npm install
     - npm run build:$ANGULAR_ENVIRONMENT
@@ -33,8 +33,8 @@ build-client:
     - cd ../..
   artifacts:
     paths:
-      - todo-app/dist/
-    name: "Build Todo-App"
+      - client/dist/
+    name: "Build client"
     expire_in: 1 week
     when: on_success
 #  environment:
@@ -85,7 +85,7 @@ test-e2e:
     - echo $ormconfig_test > ormconfig.json
     - npm install
     - npm run migrate:run
-    - cd ../todo-app
+    - cd ../client
     - npm run test:e2e-ci
   extends:
   - .runner_tags
@@ -128,8 +128,8 @@ deploy-client:
   stage: deploy
   image: kroniak/ssh-client
   script:
-    - cd todo-app/
-    - scp -r dist/todo-app/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
+    - cd client/
+    - scp -r dist/client/* deploy@w11k.de:/srv/www/vhosts/$VHOST_PATH/
   dependencies:
     - build-client
 #  when: manual
