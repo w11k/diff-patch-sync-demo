@@ -15,7 +15,8 @@ This repo contains a client-server-example with **Angular 8** frontend and **Nes
 ## Demo
 See a running demo of a collaborative todo-app here: **[Demo Todo App](http://todo-app.w11k.de/)**
 
-_Hint:_ It is recommended to use two different browsers (e.g. Chrome and Firefox) or two instances of Chrome (one instance in _private mode ("Ctrl + Shift + n")_) because IndexedDB is used and the instances should not share their databases.
+> **_Hint:_** It is recommended to use two different browsers (e.g. Chrome and Firefox) or two instances of Chrome (one instance in _private mode ("Ctrl + Shift + n")_) because IndexedDB is used and the instances should not share their databases.
+
 
 ## Prerequisites for local development
 
