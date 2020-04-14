@@ -78,8 +78,6 @@ export class AppComponent implements OnInit, HttpInterceptor {
       .addTodo(todo)
       .subscribe(
         (todos) => {
-          // this.todos.push(todo);
-          this.todos = this.sortTodosByDate(todos);
           this.isLoading$.next(false);
         }
       );
@@ -91,8 +89,6 @@ export class AppComponent implements OnInit, HttpInterceptor {
       .deleteTodoById(todo.id)
       .subscribe(
         (todos) => {
-          // this.todos = this.todos.filter(it => it.id !== todo.id);
-          this.todos = this.sortTodosByDate(todos);
           this.isLoading$.next(false);
         }
       );
@@ -104,8 +100,6 @@ export class AppComponent implements OnInit, HttpInterceptor {
       .updateTodo(todo)
       .subscribe(
         (todos) => {
-          // this.todos.map(it => it.id === todo.id ? todo : it);
-          this.todos = this.sortTodosByDate(todos);
           this.isLoading$.next(false);
         });
   }

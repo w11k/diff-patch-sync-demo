@@ -13,18 +13,18 @@ export class TodoDataService {
   }
 
   addTodo(todo: Todo): Observable<any> {
-    return from(this.api.createTodo(todo));
+    return this.api.createTodo(todo);
   }
 
   deleteTodoById(todoId: string): Observable<any> {
-    return from(this.api.deleteTodoById(todoId));
+    return this.api.deleteTodoById(todoId);
   }
 
   updateTodo(todo: Todo): Observable<any> {
-    return from(this.api.updateTodo(todo));
+    return this.api.updateTodo(todo);
   }
 
   getAllTodos(): Observable<Todo[]> {
-    return from(this.api.getAllTodos());
+    return this.api.getAllTodos();
   }
 }

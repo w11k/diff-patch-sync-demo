@@ -25,36 +25,31 @@ export class SyncApiService implements LocalStoreAdapter<Todo> {
     };
 
     this.client = new DiffPatchSyncClient<Todo>(this.syncWithRemoteCallback, this.localStore);
-    // this.client.initData().then(_ => this.client.syncPeriodically(2000))
+    this.client.initData().then(_ => this.client.syncPeriodically(2000))
   }
 
-  async getAllTodos(): Promise<Todo[]> {
-    await this.client.initData();
-    return await this.client.sync();
-    // return this.client.subscribeToChanges();
+  getAllTodos(): Observable<Todo[]> {
+    return this.client.subscribeToChanges();
   }
 
-  async createTodo(todo: Todo): Promise<Todo[]> {
+  createTodo(todo: Todo): Observable<Todo[]> {
     this.client.create(todo);
-    return await this.client.sync()
-    // return of([]);
+    return of([]);
   }
 
-  async deleteTodoById(todoId: string): Promise<Todo[]> {
+  deleteTodoById(todoId: string): Observable<Todo[]> {
     this.client.removeById(todoId);
-    return await this.client.sync()
-    // return of([]);
+    return of([]);
   }
 
-  async updateTodo(todo: Todo): Promise<Todo[]> {
+  updateTodo(todo: Todo): Observable<Todo[]> {
     const updatedItem = {
       ...todo,
       updatedAt: new Date().toISOString(),
     };
 
     this.client.updateById(todo.id, updatedItem);
-    return await this.client.sync()
-    // return of([]);
+    return of([]);
   }
 
   storeLocalData = async (document: ClientDoc<Todo>): Promise<any> => {
