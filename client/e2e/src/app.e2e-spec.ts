@@ -8,8 +8,14 @@ describe('Todo-App E2E (one browser)', async () => {
 
   beforeEach(async () => {
     page = new AppPage();
+    // await page.navigateTo(browser);
+    // await browser.waitForAngular();
+
+
+
+    await browser.waitForAngularEnabled(true);
     await page.navigateTo(browser);
-    await browser.waitForAngular();
+    await browser.waitForAngularEnabled(false);
   });
 
   it('should toggle to offline mode and back to online', async () => {
@@ -55,7 +61,7 @@ describe('Todo-App E2E (one browser)', async () => {
       await page.typeAndAddNewTodo(browser, newItem);
 
       await page.toggleOfflineOnline(browser);
-      await page.swipeDownToRefresh(browser);
+      await page.waitForSync(browser);
 
       const expectToExist: string = await page.getListItemByString(browser, newItem);
       await expect(expectToExist).toBe(newItem);
@@ -84,7 +90,7 @@ describe('Todo-App E2E (one browser)', async () => {
 
       await page.toggleOfflineOnline(browser);
       await page.typeAndAddNewTodo(browser, newItem);
-      await page.swipeDownToRefresh(browser);
+      await page.waitForSync(browser);
 
       const expectToExist: string = await page.getListItemByString(browser, newItem);
       await expect(expectToExist).toBe(newItem);
@@ -118,7 +124,7 @@ describe('Todo-App E2E (one browser)', async () => {
       await page.toggleOfflineOnline(browser);
       await page.updateTodo(browser, newItem, updatedItem);
       await page.markTodoAsDone(browser, updatedItem);
-      await page.swipeDownToRefresh(browser);
+      await page.waitForSync(browser);
 
       const expectToBeUpdated: string = await page.getListItemByString(browser, updatedItem);
       await expect(expectToBeUpdated).toBe(updatedItem);
@@ -147,7 +153,7 @@ describe('Todo-App E2E (one browser)', async () => {
 
       await page.toggleOfflineOnline(browser);
       await page.deleteTodo(browser, newItem);
-      await page.swipeDownToRefresh(browser);
+      await page.waitForSync(browser);
 
       const expectToBeDeleted: string = await page.getListItemByString(browser, newItem);
       await expect(expectToBeDeleted).toBe(undefined);
@@ -162,12 +168,17 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
   beforeEach(async () => {
     page = new AppPage();
+    await browser.waitForAngularEnabled(true);
     await page.navigateTo(browser);
-    await browser.waitForAngular();
-    await page.navigateTo(browserA);
-    await browserA.waitForAngular();
+    await browser.waitForAngularEnabled(false);
+
+    await browserB.waitForAngularEnabled(true);
     await page.navigateTo(browserB);
-    await browserB.waitForAngular();
+    await browserB.waitForAngularEnabled(false);
+
+    await browserA.waitForAngularEnabled(true);
+    await page.navigateTo(browserA);
+    await browserA.waitForAngularEnabled(false);
   });
 
   describe('II.a.ii. (CREATE & READ)', async () => {
@@ -176,7 +187,7 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       const newItem: string = v1();
       await page.typeAndAddNewTodo(browserB, newItem);
 
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserA: string = await page.getListItemByString(browserA, newItem);
       await expect(expectToExistInBrowserA).toBe(newItem);
@@ -196,9 +207,9 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await page.typeAndAddNewTodo(browserB, newItem);
 
       await page.toggleOfflineOnline(browserB);
-      await page.swipeDownToRefresh(browserB);
+      await page.waitForSync(browserB);
       await page.toggleOfflineOnline(browserA);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserA: string = await page.getListItemByString(browserA, newItem);
       await expect(expectToExistInBrowserA).toBe(newItem);
@@ -217,8 +228,8 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       const updatedItem: string = newItem+'updated';
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
       await page.updateTodo(browserB, newItem, updatedItem);
       await page.markTodoAsDone(browserB, updatedItem);
 
@@ -226,13 +237,14 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await expect(expectToExistInBrowserB).toBe(updatedItem);
       await expect(await page.isCompleteCheckboxSelected(browserB, updatedItem)).toBe(true);
 
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserA: string = await page.getListItemByString(browserB, updatedItem);
       await expect(expectToExistInBrowserA).toBe(updatedItem);
       await expect(await page.isCompleteCheckboxSelected(browserA, updatedItem)).toBe(true);
 
       await page.deleteTodo(browserB, updatedItem);
+      await page.waitForSync(browserB);
     });
 
     it('should toggle both browser offline and update a todo on B. Should be synchronized after going online and making a refresh.', async () => {
@@ -240,8 +252,8 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       const updatedItem: string = newItem + 'updated';
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.toggleOfflineOnline(browserA);
       await page.toggleOfflineOnline(browserB);
@@ -250,9 +262,9 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await page.markTodoAsDone(browserB, updatedItem);
 
       await page.toggleOfflineOnline(browserB);
-      await page.swipeDownToRefresh(browserB);
+      await page.waitForSync(browserB);
       await page.toggleOfflineOnline(browserA);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserB: string = await page.getListItemByString(browserB, updatedItem);
       await expect(expectToExistInBrowserB).toBe(updatedItem);
@@ -263,6 +275,7 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await expect(await page.isCompleteCheckboxSelected(browserA, updatedItem)).toBe(true);
 
       await page.deleteTodo(browserB, updatedItem);
+      await page.waitForSync(browserB);
     });
   });
 
@@ -272,15 +285,15 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       const newItem: string = v1();
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.deleteTodo(browserB, newItem);
 
       const expectToExistInBrowserB: string = await page.getListItemByString(browserB, newItem);
       await expect(expectToExistInBrowserB).toBe(undefined);
 
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserA: string = await page.getListItemByString(browserA, newItem);
       await expect(expectToExistInBrowserA).toBe(undefined);
@@ -290,8 +303,8 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       const newItem: string = v1();
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.toggleOfflineOnline(browserA);
       await page.toggleOfflineOnline(browserB);
@@ -299,9 +312,9 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await page.deleteTodo(browserB, newItem);
 
       await page.toggleOfflineOnline(browserB);
-      await page.swipeDownToRefresh(browserB);
+      await page.waitForSync(browserB);
       await page.toggleOfflineOnline(browserA);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserB: string = await page.getListItemByString(browserB, newItem);
       await expect(expectToExistInBrowserB).toBe(undefined);
@@ -321,15 +334,16 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.markTodoAsDone(browserA, newItem);
+      await page.waitForSync(browserB);
       await page.updateTodo(browserB, newItem, updatedItemB);
       await page.updateTodo(browserA, newItem, updatedItemA);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserB: string = await page.getListItemByString(browserB, expectedMergedItem);
       await expect(expectToExistInBrowserB).toBe(expectedMergedItem);
@@ -340,6 +354,7 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await expect(await page.isCompleteCheckboxSelected(browserA, expectedMergedItem)).toBe(true);
 
       await page.deleteTodo(browserA, expectedMergedItem);
+      await page.waitForSync(browserB);
     });
 
     it('should toggle both browser offline and update a todo on B and the same item on A. Should be synchronized (merged) after going online and making a refresh.', async () => {
@@ -350,8 +365,8 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.toggleOfflineOnline(browserA);
       await page.toggleOfflineOnline(browserB);
@@ -362,8 +377,8 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
       await page.toggleOfflineOnline(browserB);
       await page.toggleOfflineOnline(browserA);
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserB: string = await page.getListItemByString(browserB, expectedMergedItem);
       await expect(expectToExistInBrowserB).toBe(expectedMergedItem);
@@ -374,6 +389,7 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await expect(await page.isCompleteCheckboxSelected(browserA, expectedMergedItem)).toBe(true);
 
       await page.deleteTodo(browserA, expectedMergedItem);
+      await page.waitForSync(browserA);
     });
   });
 
@@ -385,15 +401,14 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.updateTodo(browserB, newItem, updatedItem);
       await page.deleteTodo(browserA, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
-
+      await page.waitForSync(browserA);
+      await page.waitForSync(browserB);
 
       const expectNewItemNotToExistInBrowserB: string = await page.getListItemByString(browserB, newItem);
       const expectUpdatedItemNotToExistInBrowserB: string = await page.getListItemByString(browserB, updatedItem);
@@ -412,19 +427,24 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.toggleOfflineOnline(browserA);
       await page.toggleOfflineOnline(browserB);
 
       await page.updateTodo(browserB, newItem, updatedItem);
       await page.deleteTodo(browserA, newItem);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.toggleOfflineOnline(browserB);
+      await page.waitForSync(browserA);
+      await page.waitForSync(browserB);
       await page.toggleOfflineOnline(browserA);
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+
+      await page.waitForSync(browserA);
+      await page.waitForSync(browserB);
 
       const expectNewItemNotToExistInBrowserB: string = await page.getListItemByString(browserB, newItem);
       const expectUpdatedItemNotToExistInBrowserB: string = await page.getListItemByString(browserB, updatedItem);
@@ -446,15 +466,15 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.deleteTodo(browserB, newItem);
       await page.updateTodo(browserA, newItem, updatedItem);
       await page.markTodoAsDone(browserA, updatedItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserB: string = await page.getListItemByString(browserB, updatedItem);
       await expect(expectToExistInBrowserB).toBe(updatedItem);
@@ -465,6 +485,7 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await expect(await page.isCompleteCheckboxSelected(browserA, updatedItem)).toBe(true);
 
       await page.deleteTodo(browserA, updatedItem);
+      await page.waitForSync(browserA);
     });
 
     it('should toggle both browser offline and delete a todo on B and update the same item on A. Item should be still available and updated after going online (B goes online first) and making a refresh.', async () => {
@@ -473,8 +494,8 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
 
       await page.typeAndAddNewTodo(browser, newItem);
 
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       await page.toggleOfflineOnline(browserA);
       await page.toggleOfflineOnline(browserB);
@@ -483,12 +504,17 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await page.deleteTodo(browserB, newItem);
       await page.updateTodo(browserA, newItem, updatedItem);
       await page.markTodoAsDone(browserA, updatedItem);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
+
 
       // the sequence of going online matters
       await page.toggleOfflineOnline(browserB);
+      await page.waitForSync(browserA);
+      await page.waitForSync(browserB);
       await page.toggleOfflineOnline(browserA);
-      await page.swipeDownToRefresh(browserB);
-      await page.swipeDownToRefresh(browserA);
+      await page.waitForSync(browserB);
+      await page.waitForSync(browserA);
 
       const expectToExistInBrowserB: string = await page.getListItemByString(browserB, updatedItem);
       await expect(expectToExistInBrowserB).toBe(updatedItem);
@@ -499,6 +525,7 @@ describe('Todo-App E2E (multiple browser interacting)', async () => {
       await expect(await page.isCompleteCheckboxSelected(browserA, updatedItem)).toBe(true);
 
       await page.deleteTodo(browserA, updatedItem);
+      await page.toggleOfflineOnline(browserA);
     });
   });
 });

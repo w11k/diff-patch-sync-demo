@@ -2,6 +2,7 @@ import {browser, by, ElementFinder, protractor, ProtractorBrowser} from 'protrac
 
 export class AppPage {
   EC = protractor.ExpectedConditions;
+  sleepTime = 2000;
 
   async getLoadingSpinner(browserInstance: ProtractorBrowser) {
     return await browserInstance.element(by.className('loading-spinner-wrapper'));
@@ -46,7 +47,6 @@ export class AppPage {
   }
 
   async navigateTo(browserInstance: ProtractorBrowser) {
-    // await browserInstance.waitForAngularEnabled(false);
     await browserInstance.get('/');
   }
 
@@ -56,21 +56,22 @@ export class AppPage {
 
   async toggleOfflineOnline(browserInstance: ProtractorBrowser) {
     const offlineToggle = await this.getOfflineToggle(browserInstance);
-    await offlineToggle.click();
-    const loadingSpinner = await this.getLoadingSpinner(browserInstance);
-    return await this.waitForElementToDisappear(browserInstance, loadingSpinner);
+    return await offlineToggle.click();
+    // const loadingSpinner = await this.getLoadingSpinner(browserInstance);
+    // return await this.waitForElementToDisappear(browserInstance, loadingSpinner);
   }
 
-  async swipeDownToRefresh(browserInstance: ProtractorBrowser) {
-    const startElem = await this.getSwipeArea(browserInstance);
-    await browserInstance
-      .actions()
-      .mouseDown(startElem)
-      .mouseMove({x: 0, y: 100})
-      .mouseUp()
-      .perform();
-    const loadingSpinner = await this.getLoadingSpinner(browserInstance);
-    return await this.waitForElementToDisappear(browserInstance, loadingSpinner);
+  async waitForSync(browserInstance: ProtractorBrowser) {
+    // const startElem = await this.getSwipeArea(browserInstance);
+    // await browserInstance
+    //   .actions()
+    //   .mouseDown(startElem)
+    //   .mouseMove({x: 0, y: 100})
+    //   .mouseUp()
+    //   .perform();
+    return await browserInstance.sleep(this.sleepTime);
+    // const loadingSpinner = await this.getLoadingSpinner(browserInstance);
+    // return await this.waitForElementToDisappear(browserInstance, loadingSpinner);
   }
 
   async typeAndAddNewTodo(browserInstance: ProtractorBrowser, content: string) {
@@ -122,6 +123,7 @@ export class AppPage {
 
   waitForElementToDisappear = async (browserInstance: ProtractorBrowser, element) => {
     return await browserInstance.wait(this.EC.invisibilityOf(element), 2000, "Custom Error Message");
+    // return await browserInstance.sleep(this.sleepTime);
   };
 
   waitForElementToAppear = async (browserInstance: ProtractorBrowser, element) => {
