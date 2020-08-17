@@ -42,7 +42,7 @@
     "@types/winston": "2.3.7",
     "@w11k/diff-patch-sync": "0.0.1",
     "automerge": "^0.12.1",
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "class-validator": "^0.10.2",
     "cors": "^2.8.5",
     "cron": "^1.7.2",
