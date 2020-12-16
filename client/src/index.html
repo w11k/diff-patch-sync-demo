@@ -20,28 +20,60 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="white">
 
-  <!-- Google Tag Manager -->
-  <script>(function(w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({
-      'gtm.start':
-        new Date().getTime(), event: 'gtm.js'
+<!--  &lt;!&ndash; Google Tag Manager &ndash;&gt;-->
+<!--  <script>(function(w, d, s, l, i) {-->
+<!--    w[l] = w[l] || [];-->
+<!--    w[l].push({-->
+<!--      'gtm.start':-->
+<!--        new Date().getTime(), event: 'gtm.js'-->
+<!--    });-->
+<!--    var f = d.getElementsByTagName(s)[0],-->
+<!--      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';-->
+<!--    j.async = true;-->
+<!--    j.src =-->
+<!--      'https://www.googletagmanager.com/gtm.js?id=' + i + dl;-->
+<!--    f.parentNode.insertBefore(j, f);-->
+<!--  })(window, document, 'script', 'dataLayer', 'GTM-W2K6PMC');</script>-->
+<!--  &lt;!&ndash; End Google Tag Manager &ndash;&gt;-->
+
+  <script>
+    const cyrb53 = function(str, seed = 0) {
+      let h1 = 0xdeadbeef ^ seed,
+        h2 = 0x41c6ce57 ^ seed;
+      for (let i = 0, ch; i < str.length; i++) {
+        ch = str.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334677);
+      }
+      h1 = Math.imul(h1 ^ h1 >>> 16, 2246822507) ^ Math.imul(h2 ^ h2 >>> 13, 3266489909);
+      h2 = Math.imul(h2 ^ h2 >>> 16, 2246822507) ^ Math.imul(h1 ^ h1 >>> 13, 3266489909);
+      return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+    };
+
+    let clientIP = "{$_SERVER['REMOTE_ADDR']}";
+    let validityInterval = Math.round (new Date() / 1000 / 3600 / 24 / 4);
+    let clientIDSource = clientIP + ";" + window.location.host + ";" + navigator.userAgent + ";" + navigator.language + ";" + validityInterval;
+    let clientIDHashed = cyrb53(clientIDSource).toString(16);
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'G-BQ47BT5JES', {
+      'storage': 'none',
+      'clientId': clientIDHashed
     });
-    var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-    j.async = true;
-    j.src =
-      'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-    f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', 'GTM-W2K6PMC');</script>
-  <!-- End Google Tag Manager -->
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');
+  </script>
 
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2K6PMC"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<!--&lt;!&ndash; Google Tag Manager (noscript) &ndash;&gt;-->
+<!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2K6PMC"-->
+<!--                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>-->
+<!--&lt;!&ndash; End Google Tag Manager (noscript) &ndash;&gt;-->
 <app-root>Loading...</app-root>
 </body>
 </html>
