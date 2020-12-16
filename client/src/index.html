@@ -50,6 +50,8 @@
           validityInterval;
         let clientIDHashed = cyrb53(clientIDSource).toString(16);
 
+        console.log('clientIDHashed', clientIDHashed);
+
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
@@ -84,11 +86,8 @@
       console.log('Google Analytics enabled (WITH cookies)');
     }
 
-
     const urlParams = new URLSearchParams(window.location.search);
     const useCookies = urlParams.get('cookies');
-
-    console.log(useCookies)
 
     if (!useCookies) {
       enableGoogleAnalyticsWithoutCookies();
