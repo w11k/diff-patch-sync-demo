@@ -20,13 +20,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="white">
 
-  <!-- Google Tag Manager -->
-<!--  <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-W2K6PMC"></script>-->
-  <!-- End Google Tag Manager -->
-
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<!--  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BQ47BT5JES"></script>-->
-
+  <!--  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N87YBTJZ5Z"></script>-->
   <script>
     const cyrb53 = function(str, seed = 0) {
       let h1 = 0xdeadbeef ^ seed,
@@ -52,69 +47,55 @@
         let clientIDSource = clientIP + ";" + window.location.host + ";" + navigator.userAgent + ";" + navigator.language + ";" +
           validityInterval;
         let clientIDHashed = cyrb53(clientIDSource).toString(16);
-
         console.log('clientIDHashed', clientIDHashed);
-        //
-        // (function(w, d, s, l, i) {
-        //   w[l] = w[l] || [];
-        //   w[l].push({
-        //     'gtm.start': new Date().getTime(),
-        //     event: 'gtm.js',
-        //     client_storage: 'none',
-        //     client_id: clientIDHashed,
-        //   });
-        //   console.log(w[l]);
-        //
-        //   var f = d.getElementsByTagName(s)[0],
-        //     j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        //   j.async = true;
-        //   j.src =
-        //     'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        //   f.parentNode.insertBefore(j, f);
-        // })(window, document, 'script', 'dataLayer', 'GTM-W2K6PMC');
 
-
+        /*
+        https://www.philschmid.de/how-to-use-google-tag-manager-and-google-analytics-without-cookies
+        with config from https://developers.google.com/analytics/devguides/collection/gtagjs/cookies-user-id
+        this solution does not prevent the cookies from being stored, maybe a bug? Other config parameters are working.
+        */
 
         // window.dataLayer = window.dataLayer || [];
-        // function gtag(){dataLayer.push(arguments);}
-        // gtag('js', new Date());
         //
-        // gtag('config', 'GA_MEASUREMENT_ID', {
-        //   client_storage: 'none',
-        //   client_id: clientIDHashed,
-        // });
+        // function gtag() {
+        //   dataLayer.push(arguments);
+        // }
+        //
+        // gtag('js', new Date());
+        // gtag('config', 'G-N87YBTJZ5Z',
+        //   {
+        //     'anonymize_ip': true,
+        //     'client_storage': 'none', // this doesn't work
+        //     'client_id': clientIDHashed,
+        //     'cookie_prefix': 'MyCookie', // this works
+        //     'cookie_expires': 28 * 24 * 60 * 60  // 28 days, in seconds
+        //   }
+        // );
 
 
-
-
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'G-BQ47BT5JES', {
+        /*
+        https://helgeklein.com/blog/2020/06/google-analytics-cookieless-tracking-without-gdpr-consent/
+        only works with Universal Analytics property (The Universal Analytics property is a part of an earlier version
+        of Google Analytics and only supports web measurement. It isn't recommended for new Analytics users,
+        and it won't support app measurement. Turn this on if you'd like to create a Universal Analytics property.)
+        */
+        (function(i, s, o, g, r, a, m) {
+          i['GoogleAnalyticsObject'] = r;
+          i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+          }, i[r].l = 1 * new Date();
+          a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+          a.async = 1;
+          a.src = g;
+          m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-61728009-16', {
           'storage': 'none',
           'clientId': clientIDHashed
         });
         ga('set', 'anonymizeIp', true);
         ga('send', 'pageview');
-
-
-
-
-        // var GA_LOCAL_STORAGE_KEY = 'ga:clientId';
-        // if (window.localStorage) {
-        //   ga('create', 'G-BQ47BT5JES', {
-        //     'storage': 'none',
-        //     'clientId': localStorage.getItem(GA_LOCAL_STORAGE_KEY)
-        //   });
-        //   ga(function(tracker) {
-        //     localStorage.setItem(GA_LOCAL_STORAGE_KEY, tracker.get('clientId'));
-        //   });
-        // }
-        // else {
-        //   ga('create', 'G-BQ47BT5JES', 'auto');
-        // }
-        // ga('send', 'pageview');
 
 
         console.log('Google Analytics enabled (WITHOUT cookies)');
