@@ -127,7 +127,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const useCookies = urlParams.get('cookies');
 
-    if (!useCookies) {
+    if (!useCookies || useCookies === 'false') {
       enableGoogleAnalyticsWithoutCookies();
     } else {
       enableGoogleAnalyticsWithCookies();
